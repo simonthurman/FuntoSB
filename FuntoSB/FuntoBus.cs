@@ -10,13 +10,15 @@ using Newtonsoft.Json;
 
 namespace FuntoSB
 {
+    [ServiceBusAccount("sbandfun")]
     public static class FuntoBus
     {
         [FunctionName("FuntoBus")]
-        [return: ServiceBus("outqueue", Connection = "outputSbMsg")]
+        [return: ServiceBus("outqueue", Connection = "sbandfun_RootManageSharedAccessKey_SERVICEBUS")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
+          //  [ServiceBus("myQueueName", Connection = "myconnection")] IAsyncCollector<string> outputQueue))
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
