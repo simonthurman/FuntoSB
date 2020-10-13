@@ -18,19 +18,20 @@ namespace FuntoSB
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
-          //  [ServiceBus("myQueueName", Connection = "myconnection")] IAsyncCollector<string> outputQueue))
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["name"];
+            string msg = req.Query["msg"];
+
+            log.LogInformation($"message to write to queue, {msg}");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+            msg = msg ?? data?.msg;
 
-            string responseMessage = string.IsNullOrEmpty(name)
+            string responseMessage = string.IsNullOrEmpty(msg)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+                : $"Hello, {msg}. This HTTP triggered function executed successfully.";
 
             return new OkObjectResult(responseMessage);
 
