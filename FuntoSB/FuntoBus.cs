@@ -29,9 +29,7 @@ namespace FuntoSB
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             msg = msg ?? data?.msg;
 
-            string responseMessage = string.IsNullOrEmpty(msg)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {msg}. This HTTP triggered function executed successfully.";
+            string responseMessage = $"This HTTP triggered function executed successfully, {msg}";
 
             return new OkObjectResult(responseMessage);
 
